@@ -19,7 +19,6 @@ python beams/estados/beam_estados.py
 python beams/covid/beam_covid.py
 python beams/result.py
 python beams/to_json.py
-
 ```
 ## Results
 - Se todos os arquivos forem executados corretamente, os resultados gerados serão um arquivo CSV e um JSON dentro da pasta resources/final
