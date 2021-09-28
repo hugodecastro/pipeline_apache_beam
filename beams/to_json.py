@@ -21,8 +21,8 @@ class parse_json(beam.DoFn):
         estado = record[1]
         uf = record[2]
         governador = record[3]
-        total_casos = record[4]
-        total_obitos = record[5]
+        total_casos = int(record[4])
+        total_obitos = int(record[5])
         yield [{
             "Regiao": regiao,
             "Estado": estado,

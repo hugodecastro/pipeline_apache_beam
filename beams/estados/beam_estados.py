@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 import apache_beam as beam
-import util
 
 estados = beam.Pipeline()
 
@@ -12,24 +11,41 @@ class filtro_estados_csv(beam.DoFn):
     yield f'{record[0]};{record[1]};{record[2]};{record[3]}'
       
 class parse_region(beam.DoFn):
-  """
-    Retorna os registros com suas respectivas regiões inseridas
-  """
+  # extraído de https://www.infoescola.com/geografia/regioes-e-estados-brasileiros/
+  regions = {
+      "Norte": "Amazonas, Roraima, Amapá, Pará, Tocantins, Rondônia, Acre",
+      "Nordeste": "Maranhão, Piauí, Ceará, Rio Grande do Norte, Pernambuco, Paraíba, Sergipe, Alagoas, Bahia",
+      "Centro-Oeste": "Mato Grosso, Mato Grosso do Sul, Goiás, Distrito Federal",
+      "Sudeste": "São Paulo, Rio de Janeiro, Espírito Santo, Minas Gerais",
+      "Sul": "Paraná, Rio Grande do Sul, Santa Catarina"
+  }
+
   def process(self, record):
+    """
+      Retorna os registros com suas respectivas regiões inseridas
+    """
     estado = record[0]
-    for key, value in util.regions.items():
+    for key, value in self.regions.items():
       if estado in value:
         record.insert(0, key)
         yield record
 
 class parse_uf(beam.DoFn):
+  ufs = {
+      "AC": "Acre", "AL": "Alagoas", "AP": "Amapá", "AM": "Amazonas", "BA": "Bahia", "CE": "Ceará",
+      "DF": "Distrito Federal", "ES": "Espírito Santo", "GO": "Goiás", "MA": "Maranhão", "MT": "Mato Grosso",
+      "MS": "Mato Grosso do Sul", "MG": "Minas Gerais", "PA": "Pará", "PB": "Paraíba", "PR": "Paraná",
+      "PE": "Pernambuco", "PI": "Piauí", "RJ": "Rio de Janeiro", "RN": "Rio Grande do Norte",
+      "RS": "Rio Grande do Sul", "RO": "Rondônia", "RR": "Roraima", "SC": "Santa Catarina",
+      "SP": "São Paulo", "SE": "Sergipe", "TO": "Tocantins"
+    }
 
   def process(self, record):
     """
       Retorna os registros com suas respectivas UFs inseridas
     """
     estado = record[1]
-    for key, value in util.ufs.items():
+    for key, value in self.ufs.items():
       if estado == value:
         record.insert(0, key)
         yield record # reagrupa o resultado como lista e retorna
