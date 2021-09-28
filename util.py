@@ -1,3 +1,7 @@
+"""
+    Utilitário comum ao projeto
+"""
+
 # extraído de https://www.infoescola.com/geografia/regioes-e-estados-brasileiros/
 regions = {
     "Norte": "Amazonas, Roraima, Amapá, Pará, Tocantins, Rondônia, Acre",
